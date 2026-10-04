@@ -24,10 +24,10 @@ FEATURES = [
         'ready': True,
     },
     {
-        'id': 'feature_5',
-        'title': 'Feature 5',
-        'description': 'Coming soon.',
-        'ready': False,
+        'id': 'organize_files',
+        'title': 'Organize Files',
+        'description': 'Sort files into separate folders based on their file type, with duplicate handling and optional empty-folder cleanup.',
+        'ready': True,
     },
     {
         'id': 'feature_6',

@@ -2,6 +2,7 @@ import customtkinter as ctk
 
 from filewizard.features import FEATURES
 from filewizard.views.FilesCounterView import FilesCounterView
+from filewizard.views.OrganizeFilesView import OrganizeFilesView
 from filewizard.views.RenameFilesView import RenameFilesView
 from filewizard.views.coming_soon import ComingSoonView
 from filewizard.views.convert_pdf_view import ConvertPdfView
@@ -15,6 +16,7 @@ class FileWizardApp(ctk.CTk):
 
         self.title('File Wizard')
         self.geometry('980x720')
+        self.geometry('1920x1000')
         self.minsize(840, 620)
 
         ctk.set_appearance_mode('dark')
@@ -47,6 +49,10 @@ class FileWizardApp(ctk.CTk):
             on_back=lambda: self.show_view('home'),
         )
         self.views['rename_files'] = RenameFilesView(
+            self,
+            on_back=lambda: self.show_view('home'),
+        )
+        self.views['organize_files'] = OrganizeFilesView(
             self,
             on_back=lambda: self.show_view('home'),
         )

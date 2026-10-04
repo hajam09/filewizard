@@ -18,10 +18,10 @@ FEATURES = [
         'ready': True,
     },
     {
-        'id': 'feature_4',
-        'title': 'Feature 4',
-        'description': 'Coming soon.',
-        'ready': False,
+        'id': 'rename_files',
+        'title': 'Rename Files with Prefix',
+        'description': 'The Rename Files feature lets you quickly rename files in a selected folder using a consistent naming pattern.',
+        'ready': True,
     },
     {
         'id': 'feature_5',

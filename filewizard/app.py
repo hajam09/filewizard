@@ -2,6 +2,7 @@ import customtkinter as ctk
 
 from filewizard.features import FEATURES
 from filewizard.views.FilesCounterView import FilesCounterView
+from filewizard.views.RenameFilesView import RenameFilesView
 from filewizard.views.coming_soon import ComingSoonView
 from filewizard.views.convert_pdf_view import ConvertPdfView
 from filewizard.views.DeleteEmptyFoldersView import DeleteEmptyFoldersView
@@ -42,6 +43,10 @@ class FileWizardApp(ctk.CTk):
         )
 
         self.views['files_counter'] = FilesCounterView(
+            self,
+            on_back=lambda: self.show_view('home'),
+        )
+        self.views['rename_files'] = RenameFilesView(
             self,
             on_back=lambda: self.show_view('home'),
         )

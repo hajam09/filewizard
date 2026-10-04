@@ -12,10 +12,10 @@ FEATURES = [
         'ready': True,
     },
     {
-        'id': 'feature_3',
-        'title': 'Feature 3',
-        'description': 'Coming soon.',
-        'ready': False,
+        'id': 'files_counter',
+        'title': 'Files counter',
+        'description': 'Analyze a selected folder and all of its subfolders to understand how files are distributed across the directory.',
+        'ready': True,
     },
     {
         'id': 'feature_4',

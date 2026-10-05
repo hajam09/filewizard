@@ -4,6 +4,9 @@ from filewizard.features import FEATURES
 from filewizard.views.FilesCounterView import FilesCounterView
 from filewizard.views.OrganizeFilesView import OrganizeFilesView
 from filewizard.views.RenameFilesView import RenameFilesView
+from filewizard.views.RenamePhotoFilesWithDateView import (
+    RenamePhotoFilesWithDateView,
+)
 from filewizard.views.coming_soon import ComingSoonView
 from filewizard.views.ConvertOfficeFilesToPdfView import ConvertOfficeFilesToPdfView
 from filewizard.views.DeleteEmptyFoldersView import DeleteEmptyFoldersView
@@ -51,6 +54,12 @@ class FileWizardApp(ctk.CTk):
         self.views['rename_files'] = RenameFilesView(
             self,
             on_back=lambda: self.show_view('home'),
+        )
+        self.views['rename_photo_files_with_date'] = (
+            RenamePhotoFilesWithDateView(
+                self,
+                on_back=lambda: self.show_view('home'),
+            )
         )
         self.views['organize_files'] = OrganizeFilesView(
             self,

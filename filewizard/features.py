@@ -24,6 +24,12 @@ FEATURES = [
         'ready': True,
     },
     {
+        'id': 'rename_photo_files_with_date',
+        'title': 'Rename Photos with Date Taken',
+        'description': 'Rename photos using their EXIF Date Taken metadata.',
+        'ready': True,
+    },
+    {
         'id': 'organize_files',
         'title': 'Organize Files',
         'description': 'Sort files into separate folders based on their file type, with duplicate handling and optional empty-folder cleanup.',

@@ -39,6 +39,7 @@ class OrganizeFilesService:
 
         organized = []
         failed = []
+        reservedDestinations = set()
 
         for current, filePath in enumerate(
             files,
@@ -61,6 +62,7 @@ class OrganizeFilesService:
                 self._getAvailablePath(
                     destinationFolder,
                     fileName,
+                    reservedDestinations,
                 )
             )
 
@@ -103,6 +105,9 @@ class OrganizeFilesService:
                 })
 
             except OSError as exception:
+                reservedDestinations.discard(
+                    self._normalizePath(destinationPath)
+                )
                 failed.append({
                     'filePath': filePath,
                     'reason': str(exception),
@@ -131,27 +136,33 @@ class OrganizeFilesService:
     def _getFiles(self):
         files = []
 
-        filesFolderPath = os.path.abspath(
-            self.filesFolder
+        filesFolderPath = os.path.normcase(
+            self.long_path(self.filesFolder)
         )
 
         if self.includeSubfolders:
             for root, dirs, fileNames in os.walk(
                 self.long_path(self.folderPath)
             ):
-                currentRoot = os.path.abspath(
-                    root
+                currentRoot = os.path.normcase(
+                    os.path.abspath(root)
                 )
+
+                if currentRoot == filesFolderPath:
+                    continue
 
                 dirs[:] = [
                     directory
                     for directory in dirs
-                    if os.path.abspath(
-                        os.path.join(
-                            currentRoot,
-                            directory,
+                    if os.path.normcase(
+                        os.path.abspath(
+                            os.path.join(
+                                currentRoot,
+                                directory,
+                            )
                         )
-                    ) != filesFolderPath
+                    )
+                    != filesFolderPath
                 ]
 
                 for fileName in fileNames:
@@ -206,15 +217,26 @@ class OrganizeFilesService:
         self,
         destinationFolder,
         fileName,
+        reservedDestinations=None,
     ):
+        if reservedDestinations is None:
+            reservedDestinations = set()
+
         destinationPath = os.path.join(
             destinationFolder,
             fileName,
         )
 
-        if not os.path.exists(
-            self.long_path(destinationPath)
+        if (
+            not os.path.exists(
+                self.long_path(destinationPath)
+            )
+            and self._normalizePath(destinationPath)
+            not in reservedDestinations
         ):
+            reservedDestinations.add(
+                self._normalizePath(destinationPath)
+            )
             return destinationPath
 
         baseName, extension = os.path.splitext(
@@ -234,13 +256,24 @@ class OrganizeFilesService:
                 newName,
             )
 
-            if not os.path.exists(
-                self.long_path(destinationPath)
+            if (
+                not os.path.exists(
+                    self.long_path(destinationPath)
+                )
+                and self._normalizePath(destinationPath)
+                not in reservedDestinations
             ):
+                reservedDestinations.add(
+                    self._normalizePath(destinationPath)
+                )
                 return destinationPath
 
             counter += 1
 
+    def _normalizePath(self, path):
+        return os.path.normcase(
+            os.path.abspath(path)
+        )
 
     def long_path(self, path):
         path = os.path.abspath(path)

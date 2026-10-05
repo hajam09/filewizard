@@ -5,7 +5,7 @@ from filewizard.views.FilesCounterView import FilesCounterView
 from filewizard.views.OrganizeFilesView import OrganizeFilesView
 from filewizard.views.RenameFilesView import RenameFilesView
 from filewizard.views.coming_soon import ComingSoonView
-from filewizard.views.convert_pdf_view import ConvertPdfView
+from filewizard.views.ConvertOfficeFilesToPdfView import ConvertOfficeFilesToPdfView
 from filewizard.views.DeleteEmptyFoldersView import DeleteEmptyFoldersView
 from filewizard.views.home import HomeView
 
@@ -35,7 +35,7 @@ class FileWizardApp(ctk.CTk):
             features=FEATURES,
             on_open_feature=self.open_feature,
         )
-        self.views['conver_office_files_to_pdf'] = ConvertPdfView(
+        self.views['conver_office_files_to_pdf'] = ConvertOfficeFilesToPdfView(
             self,
             on_back=lambda: self.show_view('home'),
         )

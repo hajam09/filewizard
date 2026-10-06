@@ -273,7 +273,8 @@ class ConvertOfficeFilesToPdfView(ctk.CTkFrame):
             self.deleteOriginal,
             (
                 'Yes deletes the original Office file '
-                'only after its PDF has been successfully '
+                'or spreadsheet only after its PDF has '
+                'been successfully '
                 'created. No keeps the original file.'
             ),
         )
@@ -396,6 +397,11 @@ class ConvertOfficeFilesToPdfView(ctk.CTkFrame):
             weight=1,
         )
 
+        container.grid_columnconfigure(
+            2,
+            weight=1,
+        )
+
         self._buildFileTypeGroup(
             container,
             'Word',
@@ -408,6 +414,13 @@ class ConvertOfficeFilesToPdfView(ctk.CTkFrame):
             'PowerPoint',
             ConvertToPdfService.POWERPOINT_FILE_TYPES,
             1,
+        )
+
+        self._buildFileTypeGroup(
+            container,
+            'Excel',
+            ConvertToPdfService.EXCEL_FILE_TYPES,
+            2,
         )
 
     def _buildFileTypeGroup(

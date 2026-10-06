@@ -2,7 +2,7 @@ FEATURES = [
     {
         'id': 'conver_office_files_to_pdf',
         'title': 'Convert Office files to PDF',
-        'description': 'Convert Word, Powerpoint and other Office files to PDF.',
+        'description': 'Convert Word, PowerPoint, Excel, and other Office files to PDF.',
         'ready': True,
     },
     {
@@ -15,6 +15,12 @@ FEATURES = [
         'id': 'files_counter',
         'title': 'Files counter',
         'description': 'Analyze a selected folder and all of its subfolders to understand how files are distributed across the directory.',
+        'ready': True,
+    },
+    {
+        'id': 'check_corrupt_files',
+        'title': 'Check Corrupt Files',
+        'description': 'Check selected PDF, Office, spreadsheet, and text file extensions for corruption.',
         'ready': True,
     },
     {
@@ -38,18 +44,6 @@ FEATURES = [
     {
         'id': 'feature_6',
         'title': 'Feature 6',
-        'description': 'Coming soon.',
-        'ready': False,
-    },
-    {
-        'id': 'feature_7',
-        'title': 'Feature 7',
-        'description': 'Coming soon.',
-        'ready': False,
-    },
-    {
-        'id': 'feature_8',
-        'title': 'Feature 8',
         'description': 'Coming soon.',
         'ready': False,
     },

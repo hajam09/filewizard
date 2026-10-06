@@ -2,6 +2,7 @@ import customtkinter as ctk
 
 from filewizard.features import FEATURES
 from filewizard.views.FilesCounterView import FilesCounterView
+from filewizard.views.CheckCorruptFilesView import CheckCorruptFilesView
 from filewizard.views.OrganizeFilesView import OrganizeFilesView
 from filewizard.views.RenameFilesView import RenameFilesView
 from filewizard.views.RenamePhotoFilesWithDateView import (
@@ -48,6 +49,10 @@ class FileWizardApp(ctk.CTk):
         )
 
         self.views['files_counter'] = FilesCounterView(
+            self,
+            on_back=lambda: self.show_view('home'),
+        )
+        self.views['check_corrupt_files'] = CheckCorruptFilesView(
             self,
             on_back=lambda: self.show_view('home'),
         )

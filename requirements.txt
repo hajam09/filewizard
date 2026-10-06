@@ -1,3 +1,7 @@
 customtkinter>=5.2.2
 Pillow>=10.0.0
+openpyxl>=3.1.0
+olefile>=0.47
+pyxlsb>=1.0.10
+pypdf>=5.0.0
 pywin32>=306

@@ -28,9 +28,22 @@ class ConvertToPdfService:
         'odp': '.odp',
     }
 
+    EXCEL_FILE_TYPES = {
+        'xls': '.xls',
+        'xlsx': '.xlsx',
+        'xlsm': '.xlsm',
+        'xlsb': '.xlsb',
+        'xlt': '.xlt',
+        'xltx': '.xltx',
+        'xltm': '.xltm',
+        'ods': '.ods',
+        'csv': '.csv',
+    }
+
     FILE_TYPES = {
         **WORD_FILE_TYPES,
         **POWERPOINT_FILE_TYPES,
+        **EXCEL_FILE_TYPES,
     }
 
     WORD_EXTENSIONS = set(
@@ -41,8 +54,13 @@ class ConvertToPdfService:
         POWERPOINT_FILE_TYPES.values()
     )
 
+    EXCEL_EXTENSIONS = set(
+        EXCEL_FILE_TYPES.values()
+    )
+
     WORD_PDF_FORMAT = 17
     POWERPOINT_PDF_FORMAT = 32
+    EXCEL_PDF_FORMAT = 0
 
     DEFAULT_CONVERSION_TIMEOUT = 60
 
@@ -329,6 +347,7 @@ class ConvertToPdfService:
         if extension not in (
             self.WORD_EXTENSIONS
             | self.POWERPOINT_EXTENSIONS
+            | self.EXCEL_EXTENSIONS
         ):
             return {
                 'status': 'skipped',
@@ -629,9 +648,11 @@ def _conversionWorker(
 
     wordApplication = None
     powerpointApplication = None
+    excelApplication = None
 
     document = None
     presentation = None
+    workbook = None
 
     try:
 
@@ -724,6 +745,44 @@ def _conversionWorker(
             presentation = None
 
         # ====================================================
+        # EXCEL
+        # ====================================================
+
+        elif extension in (
+            ConvertToPdfService.EXCEL_EXTENSIONS
+        ):
+
+            excelApplication = (
+                win32com.client.DispatchEx(
+                    'Excel.Application'
+                )
+            )
+
+            excelApplication.Visible = False
+            excelApplication.DisplayAlerts = False
+
+            try:
+                excelApplication.AutomationSecurity = 3
+            except Exception:
+                pass
+
+            workbook = excelApplication.Workbooks.Open(
+                inputPath,
+                UpdateLinks=0,
+                ReadOnly=True,
+                IgnoreReadOnlyRecommended=True,
+                AddToMru=False,
+            )
+
+            workbook.ExportAsFixedFormat(
+                ConvertToPdfService.EXCEL_PDF_FORMAT,
+                outputPath,
+            )
+
+            workbook.Close(False)
+            workbook = None
+
+        # ====================================================
         # UNSUPPORTED
         # ====================================================
 
@@ -795,6 +854,17 @@ def _conversionWorker(
                 pass
 
         # ====================================================
+        # CLOSE EXCEL WORKBOOK
+        # ====================================================
+
+        if workbook is not None:
+
+            try:
+                workbook.Close(False)
+            except Exception:
+                pass
+
+        # ====================================================
         # QUIT WORD
         # ====================================================
 
@@ -813,6 +883,17 @@ def _conversionWorker(
 
             try:
                 powerpointApplication.Quit()
+            except Exception:
+                pass
+
+        # ====================================================
+        # QUIT EXCEL
+        # ====================================================
+
+        if excelApplication is not None:
+
+            try:
+                excelApplication.Quit()
             except Exception:
                 pass
 
